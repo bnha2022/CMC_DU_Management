@@ -2,6 +2,7 @@ package cmc.du21.cms.config;
 
 import cmc.du21.cms.service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Log4j2
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -33,23 +35,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String username = null;
         String jwtToken = null;
+        // Check if token existed
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
+                logger.error("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+                logger.error("JWT Token has expired");
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
 
+        // In case of token not exist, generate token and check with username and password
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            if (Boolean.TRUE.equals(jwtTokenUtil.validateToken(jwtToken, userDetails))) {
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

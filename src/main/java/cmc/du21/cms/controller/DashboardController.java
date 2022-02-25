@@ -1,16 +1,16 @@
 package cmc.du21.cms.controller;
 
-import cmc.du21.cms.http.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("webapi")
+@RequestMapping()
 public class DashboardController {
 
     @GetMapping("/dashboard")
-    public Response<Object> homeDashboard() {
-        return Response.ok().data("Dashboard");
+    public ResponseEntity<Object> homeDashboard() {
+        return ResponseEntity.ok().body("Dashboard");
     }
 }
