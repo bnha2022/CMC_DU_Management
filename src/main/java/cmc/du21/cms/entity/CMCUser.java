@@ -9,24 +9,24 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cmc_user")
+@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
 @Getter
 @Setter
-public class User implements Serializable {
+public class CMCUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_name")
-    private String userName;
+    private String username;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
-    private String email;
+//    @Column(name = "email")
+//    private String email;
 
 }
