@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CmcEmployeeManagementApplication {
+public class CmcDUManagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CmcEmployeeManagementApplication.class, args);
+        SpringApplication.run(CmcDUManagementApplication.class, args);
     }
 
 }
